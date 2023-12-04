@@ -1,0 +1,114 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
+<!--    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js}" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<div class="col-lg-6">-->
+<!--    <div  id="section-one" class="shadow p-3 mb-5 bg-body rounded">-->
+<!--        <div class="row">-->
+<!--            <div class="post">-->
+<!--                <form action="" th:action="@{/update}" th:object="${comment}" method = "POST">-->
+<!--                    <div class="col-lg-11 text-right">-->
+<!--                        <textarea th:field="*{id}" class="form-control drag"style="display: none"></textarea>-->
+<!--                        <textarea th:field="*{commentBody}" class="form-control drag" placeholder="...."></textarea>-->
+<!--                        <button type="submit" class="btn btn-primary btn-md mt-3 btn-block">Comment</button>-->
+<!--                    </div>-->
+<!--            </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml"-->
+<!--      xmlns:th="https://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <title>FaceBook - Welcome</title>-->
+<!--    &lt;!&ndash;    <link rel="stylesheet" href="css/bootstrap.min.css">&ndash;&gt;-->
+<!--    &lt;!&ndash;    <link rel="stylesheet" href="css/style.css">&ndash;&gt;-->
+<!--    <link rel = "stylesheet" th:href="@{/index.css}">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<div class="container mt-5">-->
+<!--    <div class="row welcome">-->
+<!--        <div class="col-lg-7">-->
+<!--            <img src="" alt="">-->
+<!--            <h1 class="logo pb-2">FaceBook</h1>-->
+<!--            <h2 class="JavaFacebook mb-5">FaceBook helps you connect and share <br>with the people in your life.</h2>-->
+<!--        </div>-->
+<!--        <div class="col-lg-5">-->
+<!--            <div class="shadow p-3 mb-5 bg-body rounded">-->
+
+<!--                <div class="shadow p-3 mb-5 bg-body rounded">-->
+<!--                    <div>-->
+<!--                        <p th:if="${not_found}" th:text="${not_found}" class="text-danger"> Invalid user placeholder</p>-->
+<!--                    </div>-->
+<!--                    <form  action="#" th:action= "@{/login}" th:object="${user}" method="POST">-->
+<!--                        <input th:field = "*{email}" class="form-control mb-3" type="text" name="email" value="" placeholder="Email Address">-->
+<!--                        <input th:field = "*{password}" class="form-control" type="Password" name="password" value="" placeholder="Password">-->
+<!--                        <div class="d-grid gap-2 mt-3">-->
+<!--                            <button type="submit" class="btn btn-primary btn-lg">Log In</button>-->
+<!--                            &lt;!&ndash;            <p class="text-center mt-2"><a href="/resetpassword">Forgotten password?</a></p>&ndash;&gt;-->
+<!--                            <div class="divider"></div>-->
+<!--                            <a th:href ="@{/signup}" class="btn btn-green btn-lg mt-3 mb-3">-->
+<!--                                Create New Account-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!-- signup.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+</head>
+<body>
+<h2>User Registration</h2>
+<form th:action="@{/registration}" th:object="${FacebookUser}" method="post">
+    <div class="border border-secondary rounded p-3">
+        <label for="username">Name:</label>
+        <input class="form-control" type="text" id="username" th:field="*{name}" required autofocus>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required>
+    </div>
+    <div>
+        <label for="gender">Gender:</label>
+        <select id="gender" th:field="*{gender}">
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+            <option value="OTHER">Other</option>
+        </select>
+
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{password}" required>
+    </div>
+    <div>
+        <button type="submit">Register</button>
+    </div>
+</form>
+</body>
+</html>

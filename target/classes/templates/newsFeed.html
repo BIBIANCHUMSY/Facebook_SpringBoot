@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<head>
+  <link rel = "stylesheet" th:href="@{/newsfeed.css}">
+  <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js}" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar mb-5 navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <li class="nav-item" th:if="${session.containsKey('user_session')}" th:text="${session.user.getName()}">
+      <a class="navbar-brand" href="timeline.html"><b class="javabook">Facebook</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        </ul>
+        <div class="d-flex">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+
+            </li>
+
+    </li>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-outline-primary btn-sm">Logout</button>
+    </form>
+    </ul>
+  </div>
+  </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="shadow p-3 mb-5 bg-body rounded text-center">
+        <!-- <img class="profile-pic-icon-three mt-4" src="images/edema.jpeg" alt=""> -->
+        <b><p th:if="${session.containsKey('user_session')}" th:text="${session.user.getName()}"></p></b>
+        <p><b>Lagos, Nigeria</b></p>
+        <P><a href="#" target="_blank"></a></p>
+        <p> Joined 5 November 2023</p>
+      </div>
+    </div>
+
+
+    <div class="col-lg-6">
+      <div class="shadow p-3 mb-5 bg-body rounded">
+        <div class="row">
+          <div class="col-lg-1">
+            <!-- <img class="profile-pic-icon-two" src="images/edema.jpeg" alt=""> -->
+          </div>
+          <div class="col-lg-11 text-right">
+
+            <!-- FORM FOR POSTING  -->
+            <form th:action="@{/posts/create}" th:object="${newPost}" method="POST">
+              <textarea  th:field="*{content}" class="form-control drag" placeholder="What's on your mind?"></textarea>
+              <button type="submit" class="btn btn-primary btn-md mt-3 btn-block">Post</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <!--            POSTSSS-->
+
+      <div class="row">
+        <div><h4 class="mb-4">Posts</h4></div>
+      </div>
+
+
+      <tr th:each="post : ${posts}">
+        <div  id="section-one" class="shadow p-3 mb-5 bg-body rounded">
+          <div class="row">
+            <div class="post">
+
+              <hr>
+              <b><p th:text="${post.getUser().getName()}"></p></b>
+              <hr>
+              <div >
+                <p th:text="${post.getContent()}">
+                  PLACEHOLDER
+                  <!-- POST ENTERS HERE -->
+                </p>
+              </div>
+              <hr>
+
+              <!--               COMMENTS-->
+              <p><b>Comments</b></p>
+              <br>
+              <div th:each="comment : ${post.commentfacs}">
+                <p th:text="${comment.text}" ></p>
+                <a th:href="@{/update/{id}(id = ${comment.id})}">edit</i>
+                </a>
+                <a th:href="@{/deleteComment/{id}/{postID}(id = ${comment.id}, postID= ${post.id})}">delete</i>
+                </a>
+              </div>
+
+              <hr>
+              <form th:action="@{/comment/{id}(id = ${post.id})}" th:object="${newComment}" method="POST">
+                <textarea th:field="*{text}" class="form-control" placeholder="Enter comments here"></textarea>
+                <button type="submit" class="btn btn-primary btn-md mt-3 btn-block">Comment</button>
+              </form>
+
+
+              <span style="display: flex; justify-content: space-between">
+
+    <!--                            LIKE AND UNLIKE-->
+
+                <!--                                                <form th:action="@{/like/{id}(id=${post.getId()})}" method="post" th:object="${newPostLike}">-->
+                <!--                                              <button type="submit" value="" class="btn btn-success btn-md mt-3 btn-block"  th:text="${post.getLikes().size()} + ' ' + Like">Like</button>-->
+                <!--                                            </form>-->
+                <!--                                                 <span th:text="${totalLikesOnPost}"></span>-->
+                <!--                                                <div class="row text-center">-->
+
+                <!--             EDITING BUTTON-->
+
+                  <a  class="btn btn-primary btn-md mt-3 btn-block" th:if="${session.containsKey('user_session')}"  th:href="@{'/edit/' + ${post.getId()}}">Edit</a>
+            </div>
+
+            <!-- DELETING POST -->
+            <a class="btn btn-danger" th:if="${session.containsKey('user_session')}" th:href="@{'/delete/' + ${post.getId()}}">Delete</a>
+
+            </span>
+          </div>
+        </div>
+    </div>
+
+    </tr>
+
+  </div>
+
+</div>
+</div>
+<div class="container">
+  <div class="row">
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item" aria-current="page">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<footer class="text-center mt-5 mb-5">Facebook - 2023</footer>
+</body>
+</html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Posts</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h2>Posts</h2>-->
+<!--<div th:if="${error}">-->
+<!--  <p th:text="${error}" class="error-message"></p>-->
+<!--</div>-->
+<!--<table>-->
+<!--  <tr>-->
+<!--    <th>ID</th>-->
+<!--    <th>Content</th>-->
+<!--    <th>User</th>-->
+<!--    &lt;!&ndash; Add more columns if needed &ndash;&gt;-->
+<!--    <th>Actions</th>-->
+<!--  </tr>-->
+<!--  <tr th:each="post : ${posts}">-->
+<!--    <td th:text="${post.id}"></td>-->
+<!--    <td th:text="${post.content}"></td>-->
+<!--    <td th:text="${post.user.name}"></td>-->
+<!--    &lt;!&ndash; Add more columns if needed &ndash;&gt;-->
+<!--    <td>-->
+<!--      <a th:href="@{/posts/{id}/edit(id=${post.id})}">Edit</a>-->
+<!--      <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this post?');">-->
+<!--        <button type="submit">Delete</button>-->
+<!--      </form>-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!--&lt;!&ndash;<table>&ndash;&gt;-->
+<!--&lt;!&ndash;  <tr th:each="post : ${posts}">&ndash;&gt;-->
+<!--&lt;!&ndash;    <td th:text="${post.id}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;    <td th:text="${post.content}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;    <td th:text="${post.user.name}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;    <td>&ndash;&gt;-->
+<!--&lt;!&ndash;      <form th:action="@{/posts/__${post.id}__/delete}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="hidden" name="_method" value="delete" />&ndash;&gt;-->
+<!--&lt;!&ndash;        <button type="submit">Delete</button>&ndash;&gt;-->
+<!--&lt;!&ndash;      </form>&ndash;&gt;-->
+<!--&lt;!&ndash;    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;  </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;</table>&ndash;&gt;-->
+
+
